@@ -6,6 +6,20 @@
 
 A simple exponential backoff retry wrapper.
 
+## Installation
+
+Add this to your Gemfile:
+
+```ruby
+gem 'exp_retry'
+```
+
+Or manually install the gem:
+
+```sh
+gem install exp_retry
+```
+
 ## Usage
 
 You can wrap a simple block to enable retries:
@@ -19,7 +33,7 @@ end
 You can specify which exception class to allow retries for:
 
 ```ruby
-ExpRetry.new.call(exception: SpecificError) do
+ExpRetry.new(exception: SpecificError).call do
   something_generic # errors will surface immediately
   something_specific # errors will trigger retries
 end
@@ -28,7 +42,7 @@ end
 You can specify how many retries to allow:
 
 ```ruby
-ExpRetry.new.call(retries: 5) do
+ExpRetry.new(retries: 5).call do
   something_unreliable # will retry 5 times
 end
 ```
