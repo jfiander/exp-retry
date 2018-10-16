@@ -9,12 +9,15 @@ class ExpRetry
   def call
     yield if block_given?
   rescue StandardError => e
-    raise e if retried > @retries
-    delay(e)
+    check(e)
     retry
   end
 
   private
+
+  def check(e)
+    retried > @retries ? raise(e) : delay(e)
+  end
 
   def retried
     @retried ||= 0
