@@ -12,10 +12,10 @@ RSpec.describe ExpRetry do
   end
 
   it 'should allow normal execution' do
-    @fail_once = 1
+    @fail_once = true
     r = ExpRetry.new.call do
-      if @fail_once.positive?
-        @fail_once -= 1
+      if @fail_once
+        @fail_once = false
         raise 'Fail once'
       end
       'Something'
