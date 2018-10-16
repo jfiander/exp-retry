@@ -12,4 +12,9 @@ A simple exponential backoff retry wrapper.
 ExpRetry.new.call do
   something_unreliable
 end
+
+ExpRetry.new.call(exception: SpecificError) do
+  something_generic # errors will surface immediately
+  something_specific # errors will trigger retries
+end
 ```

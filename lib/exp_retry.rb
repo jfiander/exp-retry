@@ -2,13 +2,14 @@
 
 # Exponential backoff retry wrapper
 class ExpRetry
-  def initialize(retries: 3)
+  def initialize(retries: 3, exception: StandardError)
     @retries = retries
+    @exception = exception
   end
 
   def call
     yield if block_given?
-  rescue StandardError => e
+  rescue @exception => e
     check(e)
     retry
   end
