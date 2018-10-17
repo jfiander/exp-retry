@@ -4,9 +4,13 @@ require 'spec_helper'
 
 RSpec.describe ExpRetry do
   it 'should allow normal execution' do
-    r = ExpRetry.new.call do
-      'Something'
-    end
+    r = ExpRetry.new.call { 'Something' }
+
+    expect(r).to eql('Something')
+  end
+
+  it 'should allow normal execution using for' do
+    r = ExpRetry.for { 'Something' }
 
     expect(r).to eql('Something')
   end

@@ -2,6 +2,10 @@
 
 # Exponential backoff retry wrapper
 class ExpRetry
+  def self.for(retries: 3, exception: StandardError)
+    new(retries: retries, exception: exception).call { yield }
+  end
+
   def initialize(retries: 3, exception: StandardError)
     @retries = retries
     @exception = exception

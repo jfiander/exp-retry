@@ -52,3 +52,12 @@ ExpRetry.new(retries: 5).call do
   something_unreliable # will retry 5 times
 end
 ```
+
+There is also a helper method to simplify calling on a new instance:
+
+```ruby
+ExpRetry.for(retries: 5, exception: [SpecificError, AnotherError]) do
+  something_generic # errors will surface immediately
+  something_specific # errors will trigger up to 5 retries
+end
+```

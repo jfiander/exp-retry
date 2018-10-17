@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'exp_retry'
-  s.version       = '0.0.7'
+  s.version       = '0.0.8'
   s.date          = '2018-10-17'
   s.summary       = 'Exponential backoff retry'
   s.description   = 'A simple exponential backoff retry wrapper.'
