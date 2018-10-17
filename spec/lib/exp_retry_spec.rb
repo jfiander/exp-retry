@@ -11,12 +11,25 @@ RSpec.describe ExpRetry do
     expect(r).to eql('Something')
   end
 
-  it 'should allow normal execution' do
+  it 'should allow normal execution with a single failure' do
     @fail_once = true
     r = ExpRetry.new.call do
       if @fail_once
         @fail_once = false
         raise 'Fail once'
+      end
+      'Something'
+    end
+
+    expect(r).to eql('Something')
+  end
+
+  it 'should allow normal execution with multiple exceptions' do
+    @fail_once = true
+    r = ExpRetry.new(exception: [RuntimeError, ArgumentError]).call do
+      if @fail_once
+        @fail_once = false
+        raise 'Fail once again'
       end
       'Something'
     end

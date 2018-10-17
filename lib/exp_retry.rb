@@ -9,7 +9,7 @@ class ExpRetry
 
   def call
     yield if block_given?
-  rescue @exception => e
+  rescue *@exception => e
     check(e)
     retry
   end

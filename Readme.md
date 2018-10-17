@@ -31,10 +31,15 @@ ExpRetry.new.call do
 end
 ```
 
-You can specify which exception class to allow retries for:
+You can specify which exception class(es) to allow retries for:
 
 ```ruby
 ExpRetry.new(exception: SpecificError).call do
+  something_generic # errors will surface immediately
+  something_specific # errors will trigger retries
+end
+
+ExpRetry.new(exception: [SpecificError, AnotherError]).call do
   something_generic # errors will surface immediately
   something_specific # errors will trigger retries
 end
