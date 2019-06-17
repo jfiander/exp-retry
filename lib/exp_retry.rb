@@ -2,13 +2,14 @@
 
 # Exponential backoff retry wrapper
 class ExpRetry
-  def self.for(retries: 3, exception: StandardError)
-    new(retries: retries, exception: exception).call { yield }
+  def self.for(retries: 3, exception: StandardError, verbose: false)
+    new(retries: retries, exception: exception, verbose: verbose).call { yield }
   end
 
-  def initialize(retries: 3, exception: StandardError)
+  def initialize(retries: 3, exception: StandardError, verbose: false)
     @retries = retries
     @exception = exception
+    @verbose = verbose
   end
 
   def call
@@ -20,8 +21,8 @@ class ExpRetry
 
   private
 
-  def check(e)
-    retried > @retries ? raise(e) : delay(e)
+  def check(exception)
+    retried > @retries ? raise(exception) : delay(exception)
   end
 
   def retried
@@ -29,8 +30,10 @@ class ExpRetry
     @retried += 1
   end
 
-  def delay(e)
-    puts "*** #{e}. Retrying in #{2**@retried} seconds..."
+  def delay(exception)
+    output = "*** #{exception}. Retrying in #{2**@retried} seconds..."
+    output = '-' if @verbose
+    puts output
     sleep 2**@retried
   end
 end

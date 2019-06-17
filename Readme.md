@@ -61,3 +61,12 @@ ExpRetry.for(retries: 5, exception: [SpecificError, AnotherError]) do
   something_specific # errors will trigger up to 5 retries
 end
 ```
+
+To display internal logging, run with the `verbose` flag:
+
+```ruby
+ExpRetry.for(retries: 5, exception: SpecificError, verbose: true) do
+  something_generic # errors will surface immediately
+  something_specific # errors will trigger up to 5 retries
+end
+```
