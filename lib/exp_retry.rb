@@ -32,8 +32,7 @@ class ExpRetry
 
   def delay(exception)
     output = "*** #{exception}. Retrying in #{2**@retried} seconds..."
-    output = '-' if @verbose
-    puts output
+    @verbose ? puts(output) : print('-')
     sleep 2**@retried
   end
 end
