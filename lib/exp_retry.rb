@@ -3,7 +3,7 @@
 # Exponential backoff retry wrapper
 class ExpRetry
   attr_accessor :retries
-  attr_reader :exception
+  attr_reader :exception, :tried
 
   def self.for(retries: 3, exception: StandardError, verbose: false)
     new(retries: retries, exception: exception, verbose: verbose).call { yield }
@@ -11,6 +11,7 @@ class ExpRetry
 
   def initialize(retries: 3, exception: StandardError, wait: 1000, verbose: false)
     @retries = retries
+    @tried = 0
     @exception = exception
     @verbose = verbose
     @wait = wait
@@ -26,14 +27,14 @@ class ExpRetry
 private
 
   def check(exception)
-    raise(exception) unless retries.positive?
+    raise(exception) if tried >= retries
 
-    decrement
+    increment
     delay
   end
 
-  def decrement
-    @retries -= 1
+  def increment
+    @tried += 1
   end
 
   def delay
@@ -43,6 +44,6 @@ private
   end
 
   def time
-    2**retries * (@wait.to_f / 1000)
+    2**tried * (@wait.to_f / 1000)
   end
 end
