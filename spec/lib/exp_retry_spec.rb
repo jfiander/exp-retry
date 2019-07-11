@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe ExpRetry do
-  let(:wait) { 10 }
+  let(:wait) { 50 }
 
   it 'allows normal execution' do
     r = described_class.new.call { 'Something' }
